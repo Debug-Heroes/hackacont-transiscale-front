@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import InputMask from 'react-input-mask';
 
 interface MaskedInputProps {
@@ -9,13 +9,13 @@ interface MaskedInputProps {
   id: string;
 }
 
-const MaskedInput: React.FC<MaskedInputProps> = ({
+const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(({
   label,
   value,
   onChange,
   placeholder,
   id,
-}) => {
+}, ref) => {
   return (
     <div className="flex flex-col gap-2">
       <label htmlFor={id}>{label}</label>
@@ -30,12 +30,13 @@ const MaskedInput: React.FC<MaskedInputProps> = ({
         {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
           <input
             {...inputProps}
+            ref={ref}
             id={id} // Atribuindo o id ao input
           />
         )}
       </InputMask>
     </div>
   );
-};
+})
 
 export default MaskedInput;
