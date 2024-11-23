@@ -1,8 +1,10 @@
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input/Input";
+import InputMaskContact from '@/components/Input/InputMaskContact'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import React, { useState } from 'react';
 
 const RegisterComponiesSchema = z.object({
   name: z.string(),
@@ -28,9 +30,15 @@ export function SignUp() {
     }
   })
 
+  const [contact_number, setTelefone] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTelefone(e.target.value);
+  };
+
   return (
     <div className="flex justify-center items-center h-screen p-1">
-      <form action="" className="relative flex flex-col gap-4 w-full max-w-md shadow-xl bg-blue-950 text-gray-50  rounded-md  p-8">
+      <form action="" className="relative flex flex-col gap-4 w-full max-w-md shadow-2xl bg-gray-100  rounded-md  p-8">
         <h2 className="text-xl font-semibold">Cadastrar empresa</h2>
         <Input
           label="Nome"
@@ -47,10 +55,12 @@ export function SignUp() {
 
           placeholder="Digite o seu endereço"
         />
-        <Input
+        <InputMaskContact
           label="Contato"
-          type="number"
+          value={contact_number}
+          onChange={handleChange}
           placeholder="Digite seu numero para contato"
+          id="telefone"
         />
         <Input
           label="Senha"
