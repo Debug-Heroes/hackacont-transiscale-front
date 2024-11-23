@@ -1,8 +1,9 @@
+import { AuthVerification } from "@/contexts/AuthVerification";
 import { Outlet } from "react-router-dom";
 export function AuthLayout() {
   return (
-    <div>
-      <Outlet />
-    </div>
+    // <AuthVerification>
+    <Outlet />
+    // </AuthVerification>
   )
 }
