@@ -52,6 +52,16 @@ export function SignUp() {
           type="number"
           placeholder="Digite seu numero para contato"
         />
+        <Input
+          label="Senha"
+          type="password"
+          placeholder="Digite sua senha"
+        />
+        <Input
+          label="Confirmar senha"
+          type="password"
+          placeholder="Confirme sua senha"
+        />
 
         <Button>
           Cadastrar
