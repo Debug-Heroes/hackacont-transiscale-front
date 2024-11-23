@@ -25,7 +25,7 @@ const MaskedInput: React.FC<MaskedInputProps> = ({
         onChange={onChange}
         placeholder={placeholder}
         name='contato'
-        className="rounded-sm p-2 border text-black border-transparent outline-none focus:border focus:border-gray-300/90"
+        className="rounded-sm bg-gray-50 p-2 border text-black border-transparent outline-none focus:border focus:border-gray-300/90"
       >
         {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
           <input
