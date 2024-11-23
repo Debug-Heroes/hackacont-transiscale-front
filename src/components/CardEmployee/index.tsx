@@ -29,7 +29,7 @@ export function CardEmployee({ variant = false }: CardEmployeeProps) {
         )} />
         <div>
           <h3 className="text-lg font-semibold">
-            Escala de 6x2
+            Escala de 6x1
           </h3>
           <div className="flex items-center flex-col">
             <span>500 por hora</span>
