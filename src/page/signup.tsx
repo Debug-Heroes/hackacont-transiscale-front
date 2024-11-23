@@ -38,7 +38,7 @@ export function SignUp() {
 
   return (
     <div className="flex justify-center items-center h-screen p-1">
-      <form action="" className="relative flex flex-col gap-4 w-full max-w-md shadow-xl bg-blue-950 text-gray-50  rounded-md  p-8">
+      <form action="" className="relative flex flex-col gap-4 w-full max-w-md shadow-2xl bg-gray-100  rounded-md  p-8">
         <h2 className="text-xl font-semibold">Cadastrar empresa</h2>
         <Input
           label="Nome"
