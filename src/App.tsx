@@ -8,6 +8,7 @@ export function App() {
     <QueryClientProvider client={queryClient}>
       <Toaster />
       <Router />
+
     </QueryClientProvider>
   )
 }
