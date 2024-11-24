@@ -9,6 +9,7 @@ import { Input } from "../Input/Input";
 import { toast } from "sonner";
 import { queryClient } from "@/lib/react-query";
 import { Employee } from "@/services/DTOS/employees";
+import { AxiosError } from "axios";
 
 const EmployeesSchema = z.object({
   name: z.string().min(1),
@@ -48,8 +49,21 @@ export function RegisterEmployees() {
 
       reset()
     },
-    onError(_, __, ___) {
-      toast.error(`Não foi possível cadastrar um funcionário. Tente novamente`)
+    onError(error: AxiosError, _, __) {
+      switch(error.response?.status) {
+        case 400:
+          toast.error("Erro de validação nos dados fornecidos")
+          break
+        case 401: 
+          toast.error("Não autorizado. Token de autenticação inválido ou ausente.")
+          break
+        case 500:
+          toast.error("Erro interno no servidor.")
+          break
+        default:
+          toast.error("Ocorreu um erro inesperado. Tente novamente.");
+          break;
+      }
     },
   })
 
