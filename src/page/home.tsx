@@ -1,9 +1,13 @@
 import { RegisterEmployees } from "@/components/RegisterEmployees";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getAllEmployees } from "@/services/infra/get-all-employees";
-import { useQuery } from "@tanstack/react-query";
+import { removeEmployee } from "@/services/infra/remove-employees";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Trash } from "lucide-react";
-
+import { toast } from "sonner";
+import axios, { AxiosError } from 'axios'
+import { queryClient } from "@/lib/react-query";
+import { Employee } from "@/services/DTOS/employees";
 
 export function Home() {
 
@@ -11,8 +15,45 @@ export function Home() {
     queryKey: ['employees'],
     queryFn: () => getAllEmployees({}),
   })
+  const { mutate } = useMutation({
+    mutationFn: (id: string) => removeEmployee({
+      id
+    }),
+    onSuccess(_, variables, ___) {
+      toast.success("O usuário foi excluído")
 
-  console.log(employees)
+      const employeesCache = queryClient.getQueryData<Employee[]>(['employees'])
+
+      if (employeesCache) {
+        const employees = employeesCache.filter(employee => employee.id !== variables)
+        queryClient.setQueryData(['employees'], [
+          ...employees
+        ])
+      }
+    },
+    onError(error: AxiosError, __, ___) {
+      if (axios.isAxiosError(error)) {
+
+        switch (error.response?.status) {
+          case 401:
+            toast.error("Não autorizado. Token de autenticação inválido ou ausente.")
+            break
+          case 404:
+            toast.error("Funcionário não encontrado.")
+            break
+          default:
+            toast.error("Ocorreu um erro inesperado. Tente novamente.");
+            break;
+        }
+
+      }
+    },
+  })
+  function handleRemoveEmployees(id: string) {
+    mutate(
+      id
+    )
+  }
   return (
     <div className="max-w-[1280px] mx-auto px-1">
       <header className="flex justify-between items-center mt-9  ">
@@ -43,7 +84,7 @@ export function Home() {
                     <TableCell className="text-center">{employee.current_working_days}</TableCell>
                     <TableCell className="text-center">{employee.weekly_productivity}</TableCell>
                     <TableCell className="text-center">
-                      <Trash className="cursor-pointer transition-all hover:text-red-600 hover:rotate-12 hover:scale-95" size={16} />
+                      <Trash onClick={() => handleRemoveEmployees(employee.id)} className="cursor-pointer transition-all hover:text-red-600 hover:rotate-12 hover:scale-95" size={16} />
                     </TableCell>
                   </TableRow>
                 )
