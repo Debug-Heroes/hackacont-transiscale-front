@@ -150,9 +150,7 @@ export function SignUp() {
             }}
           />
         </div>
-        <p className="text-sm text-right font-normal">Já possuí um login? <Link className="hover:before:" to={'/signin'}>
-          Entrar
-        </Link></p>
+        <p className="text-xs text-right">Já possuí um login? <Link className="text-blue-500" to={'/signin'}>Entrar</Link></p>
         <Button className="mt-4 w-max px-8 mx-auto" disabled={isPending}>
           {
             isPending ? <div className="border mx-auto border-transparent rounded-full size-6 text-center border-t-cyan-50 border-r-cyan-50 animate-spin" /> : 'Cadastrar'
