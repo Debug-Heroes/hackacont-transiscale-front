@@ -1,5 +1,5 @@
 import { api } from "@/lib/axios"
-import { Employee } from "../DTOS/employees";
+
 
 interface RegisterSimulationRequest {
   name: string;

@@ -1,13 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
+
 import { Button } from "../Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
-import { registerEmployees } from "@/services/infra/register-employees";
 import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../Input/Input";
-import { toast } from "sonner";
-import { registerSimulation } from "@/services/infra/register-simulation";
 import { useState } from "react";
 
 const SimulationSchema = z.object({
