@@ -20,7 +20,7 @@ export function Home() {
       id
     }),
     onSuccess(_, variables, ___) {
-      toast.success("O usuário foi excluído")
+      toast.success("O funcionário foi excluído")
 
       const employeesCache = queryClient.getQueryData<Employee[]>(['employees'])
 
