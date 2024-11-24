@@ -25,9 +25,7 @@ const RegisterComponiesSchema = z.object({
 type IRegisterComponies = z.infer<typeof RegisterComponiesSchema>
 export function SignUp() {
   const navigate = useNavigate()
-  const { handleSubmit, control, formState: {
-    errors
-  } } = useForm<IRegisterComponies>({
+  const { handleSubmit, control } = useForm<IRegisterComponies>({
     resolver: zodResolver(RegisterComponiesSchema),
     defaultValues: {
       name: '',
@@ -43,12 +41,15 @@ export function SignUp() {
     mutationFn: (data: IRegisterComponies) => registerCompanies({
       ...data
     }),
-    onSuccess(data, variables, context) {
+    onSuccess(_, __, ___) {
       toast.success("Sua empresa foi criada")
       navigate('/')
     },
-    onError(error: AxiosError, variables, context) {
+    onError(error: AxiosError, _, __) {
       toast.error("Sua empresa não foi criada")
+      if (error.response?.status === 404) {
+        toast.error("404")
+      }
     },
   })
 
@@ -59,7 +60,7 @@ export function SignUp() {
   }
   return (
     <div className="flex justify-center items-center h-screen p-1">
-      <form onSubmit={handleSubmit(handleRegisterCompanies)} action="" className="relative w-full max-w-3xl flex flex-col gap-4 w-full shadow-2xl bg-gray-100  rounded-md  p-8">
+      <form onSubmit={handleSubmit(handleRegisterCompanies)} action="" className="relative w-full max-w-3xl flex flex-col gap- shadow-2xl bg-gray-100  rounded-md  p-8">
         <h2 className="text-xl font-semibold">Cadastrar empresa</h2>
         <Controller
           name="name"
