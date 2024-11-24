@@ -9,23 +9,36 @@ import { registerCompanies } from "@/services/infra/register-companies";
 import { AxiosError } from 'axios'
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { MessageError } from "@/components/MessageError/MessageError";
 
 const RegisterComponiesSchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
+  name: z.string().min(1, {
+    message: 'O nome é obrigatório'
+  }),
+  email: z.string().email({
+    message: 'Informe um email válido.'
+  }).min(1, {
+    message: 'O email é obrigatório.'
+  }),
   address: z.string(),
   contact_number: z.string(),
-  password: z.string().min(1),
-  confirmPassword: z.string().min(1),
+  password: z.string().min(1, {
+    message: 'A senha não pode estar vazia'
+  }),
+  confirmPassword: z.string().min(1, {
+    message: 'A confirmação da senha não pode estar vazia'
+  }),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "A confirmação de senha está diferente",
+  message: "As senhas não correspondem",
   path: ["confirmPassword"]
 })
 
 type IRegisterComponies = z.infer<typeof RegisterComponiesSchema>
 export function SignUp() {
   const navigate = useNavigate()
-  const { handleSubmit, control } = useForm<IRegisterComponies>({
+  const { handleSubmit, control, formState: {
+    errors
+  } } = useForm<IRegisterComponies>({
     resolver: zodResolver(RegisterComponiesSchema),
     defaultValues: {
       name: '',
@@ -60,7 +73,7 @@ export function SignUp() {
   }
   return (
     <div className="flex justify-center items-center h-screen p-1">
-      <form onSubmit={handleSubmit(handleRegisterCompanies)} action="" className="relative w-full max-w-3xl flex flex-col gap-2 shadow-2xl bg-gray-100  rounded-md  p-8">
+      <form onSubmit={handleSubmit(handleRegisterCompanies)} action="" className="relative w-full max-w-3xl flex flex-col gap-3 shadow-2xl bg-gray-100  rounded-md  p-8">
         <h2 className="text-xl font-semibold mb-4">Cadastrar empresa</h2>
         <Controller
           name="name"
@@ -75,6 +88,7 @@ export function SignUp() {
             )
           }}
         />
+        <MessageError message={errors?.name?.message} />
         <Controller
           name="email"
           control={control}
@@ -88,6 +102,7 @@ export function SignUp() {
             )
           }}
         />
+        <MessageError message={errors?.email?.message} />
         <Controller
           name="address"
           control={control}
@@ -117,38 +132,43 @@ export function SignUp() {
           }}
         />
 
-        <div className="flex justify-between gap-2">
-          <Controller
-            name="password"
-            control={control}
-            render={({ field }) => {
-              return (
-                <Input
-                  label="Senha"
-                  type="password"
-                  className="flex-1"
-                  placeholder="Digite sua senha"
-                  {...field}
-                />
-              )
-            }}
-          />
-
-          <Controller
-            name="confirmPassword"
-            control={control}
-            render={({ field }) => {
-              return (
-                <Input
-                  label="Confirmar senha"
-                  type="password"
-                  className="flex-1"
-                  placeholder="Confirme sua senha"
-                  {...field}
-                />
-              )
-            }}
-          />
+        <div className="flex flex-col md:flex-row justify-between gap-4">
+          <div className="flex-1">
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <Input
+                    label="Senha"
+                    type="password"
+                    className="flex-1"
+                    placeholder="Digite sua senha"
+                    {...field}
+                  />
+                )
+              }}
+            />
+            <MessageError message={errors?.password?.message} />
+          </div>
+          <div className="flex-1">
+            <Controller
+              name="confirmPassword"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <Input
+                    label="Confirmar senha"
+                    type="password"
+                    className="flex-1"
+                    placeholder="Confirme sua senha"
+                    {...field}
+                  />
+                )
+              }}
+            />
+            <MessageError message={errors?.confirmPassword?.message} />
+          </div>
         </div>
         <p className="text-xs text-right">Já possuí um login? <Link className="text-blue-500" to={'/signin'}>Entrar</Link></p>
         <Button className="mt-4 w-max px-8 mx-auto" disabled={isPending}>
