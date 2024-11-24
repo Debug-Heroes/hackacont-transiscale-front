@@ -77,7 +77,7 @@ export function RegisterSimulation({ handleRegisterEmployees }: RegisterSimulati
                   <Input
                     label="Escala nova"
                     type="number"
-                    placeholder="Inseri a escala nova da empresa"
+                    placeholder="Nova escala em horas de trabalho semanais"
                     {...field}
                   />
                 )
@@ -93,7 +93,7 @@ export function RegisterSimulation({ handleRegisterEmployees }: RegisterSimulati
                   <Input
                     label="Escala velha"
                     type="number"
-                    placeholder="Inseri a escala velha da empresa"
+                    placeholder="Antiga escala em horas de trabalho semanais"
                     {...field}
                   />
                 )
