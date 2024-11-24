@@ -13,7 +13,7 @@ import { Employee } from "@/services/DTOS/employees";
 const EmployeesSchema = z.object({
   name: z.string().min(1),
   role: z.string().min(1),
-  current_weekly_hours: z.coerce.number().min(1).max(24),
+  current_weekly_hours: z.coerce.number().min(1).max(168),
   current_working_days: z.coerce.number().min(1).max(7),
   weekly_productivity: z.coerce.number()
 })
@@ -112,10 +112,10 @@ export function RegisterEmployees() {
               render={({ field }) => {
                 return (
                   <Input
-                    label="Horas semanais atuais"
+                    label="Escala em horas semanais atuais"
                     type="number"
                     min={1}
-                    max={24}
+                    max={168}
                     placeholder="Inseri as horas semanais atuais"
                     {...field}
                   />
