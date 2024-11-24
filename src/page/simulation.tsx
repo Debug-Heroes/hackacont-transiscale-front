@@ -2,6 +2,7 @@ import { RegisterSimulation, SimulationSchemaType } from "@/components/RegisterS
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { registerSimulation } from "@/services/infra/register-simulation";
 import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { TrendingDown, TrendingUp, Users } from "lucide-react";
 import { toast } from "sonner";
 
@@ -17,8 +18,21 @@ export function Simulation() {
       toast.success(`Simulação gerada`)
 
     },
-    onError(_, __, ___) {
-      toast.error(`Não foi possível cadastrar um funcionário. Tente novamente`)
+    onError(error: AxiosError, _, __) {
+      switch (error.response?.status) {
+        case 400:
+          toast.error(`Não foi possível encontrar funcionarios. Tente novamente`)
+          break
+        case 401:
+          toast.error(`Não foi possível gerar uma simulação. Não autorizado!`)
+          break
+        case 500:
+          toast.error(`Aconteceu um erro interno. Tente novamente`)
+          break
+        default:
+          toast.error(`Erro desconhecido. Tente novamente`)
+          break
+      }
     },
   })
 
