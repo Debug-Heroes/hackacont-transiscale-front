@@ -7,7 +7,7 @@ import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { registerCompanies } from "@/services/infra/register-companies";
 import { AxiosError } from 'axios'
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const RegisterComponiesSchema = z.object({
@@ -60,8 +60,8 @@ export function SignUp() {
   }
   return (
     <div className="flex justify-center items-center h-screen p-1">
-      <form onSubmit={handleSubmit(handleRegisterCompanies)} action="" className="relative w-full max-w-3xl flex flex-col gap- shadow-2xl bg-gray-100  rounded-md  p-8">
-        <h2 className="text-xl font-semibold">Cadastrar empresa</h2>
+      <form onSubmit={handleSubmit(handleRegisterCompanies)} action="" className="relative w-full max-w-3xl flex flex-col gap-2 shadow-2xl bg-gray-100  rounded-md  p-8">
+        <h2 className="text-xl font-semibold mb-4">Cadastrar empresa</h2>
         <Controller
           name="name"
           control={control}
@@ -150,7 +150,10 @@ export function SignUp() {
             }}
           />
         </div>
-        <Button disabled={isPending}>
+        <p className="text-sm text-right font-normal">Já possuí um login? <Link className="hover:before:" to={'/signin'}>
+          Entrar
+        </Link></p>
+        <Button className="mt-4 w-max px-8 mx-auto" disabled={isPending}>
           {
             isPending ? <div className="border mx-auto border-transparent rounded-full size-6 text-center border-t-cyan-50 border-r-cyan-50 animate-spin" /> : 'Cadastrar'
           }
