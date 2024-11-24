@@ -19,12 +19,13 @@ interface RegisterCompaniesResponse {
 
 }
 export async function registerCompanies(data: RegisterCompaniesRequest){
-  const { name, email, address, contact_number, password, confirmPassword} = data 
+  const { name, email, address, contact_number, password, confirmPassword} = data
+  const contact = contact_number.replace(/[()\-\s]/g, '') 
   const response = await api.post<RegisterCompaniesResponse>('/signup', { 
     name, 
     email, 
     address, 
-    contact_number, 
+    contact_number: contact, 
     password, 
     confirmPassword
   })
