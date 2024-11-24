@@ -5,9 +5,8 @@ import { Toaster } from 'sonner'
 export function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Toaster />
+      <Toaster richColors position="top-right" />
       <Router />
-
     </QueryClientProvider>
   )
 }
