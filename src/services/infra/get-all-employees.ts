@@ -14,6 +14,5 @@ export async function getAllEmployees({}: GetAllEmployeesRequest){
 
   })
 
-  console.log(response.data)
   return response.data
 }
