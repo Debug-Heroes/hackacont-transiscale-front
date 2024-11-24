@@ -75,9 +75,9 @@ export function RegisterSimulation({ handleRegisterEmployees }: RegisterSimulati
               render={({ field }) => {
                 return (
                   <Input
-                    label="Tipo de escala"
+                    label="Escala nova"
                     type="number"
-                    placeholder="Inseri o tipo de escala"
+                    placeholder="Inseri a escala nova da empresa"
                     {...field}
                   />
                 )
@@ -91,9 +91,9 @@ export function RegisterSimulation({ handleRegisterEmployees }: RegisterSimulati
               render={({ field }) => {
                 return (
                   <Input
-                    label="Dias de trabalho atuais"
+                    label="Escala velha"
                     type="number"
-                    placeholder="Inseri os dias de trabalho atuais"
+                    placeholder="Inseri a escala velha da empresa"
                     {...field}
                   />
                 )
