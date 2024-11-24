@@ -19,42 +19,41 @@ export function Home() {
         <h1 className="text-2xl font-bold">Funcionários</h1>
         <RegisterEmployees />
       </header>
-      <Table className="w-full max-w-[1280px]">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="text-left">Nome</TableHead>
-            <TableHead className="text-center">Cargo</TableHead>
-            <TableHead className="text-center">Horas trabalhadas por semana atuais</TableHead>
-            <TableHead className="text-center">Dias de trabalho atuais</TableHead>
-            <TableHead className="text-center">Produtividade semanal</TableHead>
-            <TableHead className="text-center"></TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
+      <div className="h-96 overflow-y-scroll">
+        <Table className="w-full max-w-[1280px]">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="text-left">Nome</TableHead>
+              <TableHead className="text-center">Cargo</TableHead>
+              <TableHead className="text-center">Horas trabalhadas por semana atuais</TableHead>
+              <TableHead className="text-center">Dias de trabalho atuais</TableHead>
+              <TableHead className="text-center">Produtividade semanal</TableHead>
+              <TableHead className="text-center"></TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
 
-          {
-            employees?.map(employee => {
-              return (
-                <TableRow>
-                  <TableCell className="font-medium text-left">{employee.name}</TableCell>
-                  <TableCell className="text-center">{employee.role}</TableCell>
-                  <TableCell className="text-center">{employee.current_weekly_hours}</TableCell>
-                  <TableCell className="text-center">{employee.current_working_days}</TableCell>
-                  <TableCell className="text-center">{employee.weekly_productivity}</TableCell>
-                  <TableCell className="text-center">
-                    <Trash className="cursor-pointer transition-all hover:text-red-600 hover:rotate-12 hover:scale-95" size={16} />
-                  </TableCell>
-                </TableRow>
-              )
-            })
-          }
+            {
+              employees?.map(employee => {
+                return (
+                  <TableRow>
+                    <TableCell className="font-medium text-left">{employee.name}</TableCell>
+                    <TableCell className="text-center">{employee.role}</TableCell>
+                    <TableCell className="text-center">{employee.current_weekly_hours}</TableCell>
+                    <TableCell className="text-center">{employee.current_working_days}</TableCell>
+                    <TableCell className="text-center">{employee.weekly_productivity}</TableCell>
+                    <TableCell className="text-center">
+                      <Trash className="cursor-pointer transition-all hover:text-red-600 hover:rotate-12 hover:scale-95" size={16} />
+                    </TableCell>
+                  </TableRow>
+                )
+              })
+            }
 
 
-        </TableBody>
-      </Table>
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  justify-center mt-4 gap-2 text-gray-200">
-        
-      </div> */}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   )
 }
