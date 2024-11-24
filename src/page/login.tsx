@@ -8,6 +8,7 @@ import { z } from "zod"
 import axios, { AxiosError } from 'axios'
 import { toast } from "sonner"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { api } from "@/lib/axios"
 
 const LoginSchema = z.object({
     email: z.string().email({
@@ -37,7 +38,8 @@ export function Login() {
             email, password
         }),
         onSuccess(data, __, ___) {
-            localStorage.setItem('token', data.accessToken as string)
+            sessionStorage.setItem('token', data.accessToken as string)
+            api.defaults.headers.common = { 'Authorization': `bearer ${data.accessToken}` }
             navigate('/')
         },
         onError(error: AxiosError | Error, __, ___) {
@@ -61,29 +63,29 @@ export function Login() {
     return (
         <div className="h-screen w-screen flex justify-center items-center ">
             <div className="bg-gray-100 w-full max-w-96 rounded-sm p-5 shadow-xl ">
-                <h1 className="text-2xl font-semibold">Login</h1>
+                <h1 className="text-2xl font-semibold">Acesse sua conta</h1>
                 <form onSubmit={handleSubmit(handleAuthenticate)} className="mt-5 flex flex-col gap-3">
                     <Controller
                         name="email"
                         control={control}
                         render={({ field }) => {
                             return (
-                                <Input label="E-mail" placeholder="Insira seu endereço de e-mail" className="bg-slate-300" {...field} />
+                                <Input label="E-mail" id="email" placeholder="Insira seu endereço de e-mail" className="bg-slate-300" {...field} />
                             )
                         }}
                     />
-                    <p className="text-xs h-4 text-red-900 -mt-2">{errors?.email?.message}</p>
+                    <p className="text-xs h-1 text-red-900 -mt-2">{errors?.email?.message}</p>
                     <Controller
                         name="password"
                         control={control}
                         render={({ field }) => {
                             return (
-                                <Input label="Senha" className="bg-slate-300" placeholder="Insira sua senha" {...field} />
+                                <Input label="Senha" id="password" type="password" className="bg-slate-300" placeholder="Insira sua senha" {...field} />
                             )
                         }}
                     />
-                    <p className="text-xs h-4 text-red-900 -mt-2">{errors?.password?.message}</p>
-                    <p className="text-xs">Sua empresa não possuí cadastro? <Link to={'/signup'}>Clique aqui</Link></p>
+                    <p className="text-xs h-1 text-red-900 -mt-2">{errors?.password?.message}</p>
+                    <p className="text-xs">Não tem uma conta? <Link className="text-blue-500" to={'/signup'}>Cria uma!</Link></p>
                     <button type="submit" className="bg-blue-500 text-white p-2 w-32 rounded mx-auto m-5">
                         {isPending ? <Spinner /> : 'ENTRAR'}
                     </button>
