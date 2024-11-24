@@ -59,7 +59,7 @@ export function Simulation() {
 
               <div className="flex gap-2 justify-center items-center">
                 <div className="block top-0 right-1.5">
-                  <span className="text-xs text-red-700">{data?.productivity_deficit}</span>
+                  <span title={`O deficie de funcionário é de ${data.employees_deficit}`} className="text-sm text-slate-700">{data.employees_deficit}</span>
                 </div>
                 <div title={`O deficie de funcionário é de ${data.employees_deficit}`}>
                   {data.employees_deficit < 0
