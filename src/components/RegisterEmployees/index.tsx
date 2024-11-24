@@ -7,12 +7,14 @@ import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../Input/Input";
 import { toast } from "sonner";
+import { queryClient } from "@/lib/react-query";
+import { Employee } from "@/services/DTOS/employees";
 
 const EmployeesSchema = z.object({
   name: z.string().min(1),
   role: z.string().min(1),
-  current_weekly_hours: z.coerce.number(),
-  current_working_days: z.coerce.number(),
+  current_weekly_hours: z.coerce.number().min(1).max(24),
+  current_working_days: z.coerce.number().min(1).max(7),
   weekly_productivity: z.coerce.number()
 })
 
@@ -33,8 +35,17 @@ export function RegisterEmployees() {
     mutationFn: (data: EmployeesSchemaType) => registerEmployees({
       ...data
     }),
-    onSuccess(_, variables, ___) {
+    onSuccess(data, variables, ___) {
       toast.success(`Funcionário ${variables.name} foi criado`)
+      const employees = queryClient.getQueryData<Employee[]>(['employees'])
+
+      if (employees) {
+        queryClient.setQueryData(['employees'], [
+          ...employees,
+          data
+        ])
+      }
+
       reset()
     },
     onError(_, __, ___) {
@@ -103,6 +114,8 @@ export function RegisterEmployees() {
                   <Input
                     label="Horas semanais atuais"
                     type="number"
+                    min={1}
+                    max={24}
                     placeholder="Inseri as horas semanais atuais"
                     {...field}
                   />
@@ -118,6 +131,8 @@ export function RegisterEmployees() {
                   <Input
                     label="Dias de trabalho atuais"
                     type="number"
+                    min={1}
+                    max={7}
                     placeholder="Inseri os dias de trabalho atuais"
                     {...field}
                   />
