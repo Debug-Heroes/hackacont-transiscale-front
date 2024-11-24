@@ -1,5 +1,4 @@
 import { api } from "@/lib/axios"
-import { getIdCompanies } from "@/utils/get-id-companies"
 
 interface RegisterEmployeesRequest {
   name: string
@@ -19,7 +18,6 @@ export async function registerEmployees({name, role, current_weekly_hours, curre
   current_weekly_hours, 
   current_working_days, 
   weekly_productivity: (weekly_productivity).toFixed(2),
-  company_id: getIdCompanies()
 
   })
 
