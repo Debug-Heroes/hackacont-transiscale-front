@@ -3,10 +3,12 @@ import { LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import logoImg from '@/assets/logo.svg'
 import { LinkMenu } from "./LinkMenu";
+import { queryClient } from "@/lib/react-query";
 export function Menu() {
   const navigate = useNavigate()
   function logOut() {
     api.defaults.headers.common = { 'Authorization': `bearer ` }
+    queryClient.clear()
     sessionStorage.clear()
     navigate('/')
   }

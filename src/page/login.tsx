@@ -9,6 +9,7 @@ import axios, { AxiosError } from 'axios'
 import { toast } from "sonner"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { api } from "@/lib/axios"
+import { queryClient } from "@/lib/react-query"
 
 const LoginSchema = z.object({
     email: z.string().email({
@@ -40,6 +41,7 @@ export function Login() {
         onSuccess(data, __, ___) {
             sessionStorage.setItem('token', data.accessToken as string)
             api.defaults.headers.common = { 'Authorization': `bearer ${data.accessToken}` }
+            queryClient.clear()
             navigate('/')
         },
         onError(error: AxiosError | Error, __, ___) {
